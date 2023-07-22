@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import cardBody from './Root/index'
 import Performance from './Performance/index.vue'
 import Latestnews from './Latestnews/index.vue'

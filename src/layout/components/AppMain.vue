@@ -4,6 +4,8 @@
       <router-view :key="key" />
     </transition>
   </section>
+
+
 </template>
 
 <script>
@@ -37,4 +39,5 @@ export default {
     padding-right: 15px;
   }
 }
+
 </style>

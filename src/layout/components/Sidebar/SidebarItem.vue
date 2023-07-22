@@ -1,5 +1,7 @@
 <template>
+  <!-- 如果菜单项未隐藏，则渲染菜单内容 -->
   <div v-if="!item.hidden">
+    <!-- 判断是否有一个显示的子菜单，并且没有其他子菜单或其他子菜单都被隐藏，并且当前菜单项不是始终显示的 -->
     <template
       v-if="
         hasOneShowingChild(item.children, item) &&
@@ -7,12 +9,13 @@
         !item.alwaysShow
       "
     >
-      <!-- 如果只有一个显示的子路由，并且没有子菜单或者所有子菜单都被隐藏，并且当前菜单项不是始终显示的 -->
+      <!-- 如果只有一个显示的子菜单，则渲染菜单项 -->
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item
           :index="resolvePath(onlyOneChild.path)"
           :class="{ 'submenu-title-noDropdown': !isNest }"
         >
+          <!-- 渲染菜单项的内容 -->
           <item
             :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"
             :title="onlyOneChild.meta.title"
@@ -21,12 +24,14 @@
       </app-link>
     </template>
 
+    <!-- 如果有多个子菜单或当前菜单项是始终显示的，则渲染子菜单 -->
     <el-submenu
       v-else
       ref="subMenu"
       :index="resolvePath(item.path)"
       popper-append-to-body
     >
+      <!-- 渲染子菜单的标题 -->
       <template slot="title">
         <item
           v-if="item.meta"
@@ -34,6 +39,7 @@
           :title="item.meta.title"
         />
       </template>
+      <!-- 递归渲染子菜单项 -->
       <sidebar-item
         v-for="child in item.children"
         :key="child.path"
@@ -51,29 +57,28 @@ import path from "path";
 import { isExternal } from "@/utils/validate";
 import Item from "./Item";
 import AppLink from "./Link";
-import FixiOSBug from "./FixiOSBug";
 
 export default {
   name: "SidebarItem",
   components: { Item, AppLink },
-  mixins: [FixiOSBug],
   props: {
+    // 当前菜单项对象
     item: {
       type: Object,
       required: true,
     },
+    // 是否为嵌套菜单项
     isNest: {
       type: Boolean,
       default: false,
     },
+    // 基本路径，用于解析菜单项的路径
     basePath: {
       type: String,
       default: "",
     },
   },
   data() {
-    // 修复 https://github.com/PanJiaChen/vue-admin-template/issues/237
-    // TODO: 用 render function 重构
     this.onlyOneChild = null;
     return {};
   },

@@ -5,7 +5,10 @@
 </template>
 
 <script>
+
 export default {
-  name: 'App'
+  name: 'App',
+  comments:{
+  }
 }
 </script>
